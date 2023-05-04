@@ -40,7 +40,7 @@ describe("StrategyPUSDConvex", () => {
   let sushiRouter: IUniswapV2Router, uniswapV3Router: ISwapRouter;
   let usdcVault: FungibleAssetVaultForDAO;
   let curve: ICurve, booster: IBooster;
-  let spellRewardPool : IBaseRewardPool,
+  let spellRewardPool: IBaseRewardPool,
     cvxRewardPool: IBaseRewardPool,
     crvRewardPool: IBaseRewardPool,
     jpegRewardPool: IBaseRewardPool

@@ -14,7 +14,7 @@ const strategist_role =
 const minter_role =
   "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6";
 
-describe("yVault", () => {
+describe.only("yVault", () => {
   let owner: SignerWithAddress,
     user1: SignerWithAddress,
     contract: SignerWithAddress;
@@ -48,7 +48,7 @@ describe("yVault", () => {
     await token.deployed();
 
     const RewardPool = await ethers.getContractFactory("MockRewardPool");
-    
+
     const rewardPool = await RewardPool.deploy(
       token.address,
       jpeg.address,
@@ -107,7 +107,7 @@ describe("yVault", () => {
 
   it("should allow the farm to withdraw JPEG", async () => {
     await jpeg.mint(strategy.address, units(500));
-    
+
     await expect(yVault.withdrawJPEG()).to.be.revertedWith("NO_FARM");
 
     await expect(yVault.setFarmingPool(ZERO_ADDRESS)).to.be.revertedWith("INVALID_FARMING_POOL");

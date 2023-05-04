@@ -14,8 +14,8 @@ const strategist_role =
 const minter_role =
   "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6";
 
-describe("yVaultLPFarming", () => {
-    let owner: SignerWithAddress,
+describe.only("yVaultLPFarming", () => {
+  let owner: SignerWithAddress,
     user1: SignerWithAddress,
     contract: SignerWithAddress;
   //we are mocking the strategy because setting up the test environment for
@@ -33,7 +33,7 @@ describe("yVaultLPFarming", () => {
     await network.provider.send("hardhat_setCode", [contract.address, "0xab"]); //simulate a contract
 
     const JPEG = await ethers.getContractFactory("JPEG");
-    jpeg = await JPEG.deploy(units(0)); 
+    jpeg = await JPEG.deploy(units(0));
     await jpeg.deployed();
     await jpeg.grantRole(minter_role, owner.address);
 
@@ -48,7 +48,7 @@ describe("yVaultLPFarming", () => {
     await token.deployed();
 
     const RewardPool = await ethers.getContractFactory("MockRewardPool");
-    
+
     const rewardPool = await RewardPool.deploy(
       token.address,
       jpeg.address,
@@ -88,17 +88,17 @@ describe("yVaultLPFarming", () => {
   });
 
   it("should allow users to deposit tokens", async () => {
-      await expect(lpFarming.deposit(0)).to.be.revertedWith("invalid_amount");
+    await expect(lpFarming.deposit(0)).to.be.revertedWith("invalid_amount");
 
-      await token.mint(owner.address, units(500));
-      await token.approve(yVault.address, units(500));
-      await yVault.depositAll();
+    await token.mint(owner.address, units(500));
+    await token.approve(yVault.address, units(500));
+    await yVault.depositAll();
 
-      await yVault.approve(lpFarming.address, units(500));
-      await lpFarming.deposit(units(500));
+    await yVault.approve(lpFarming.address, units(500));
+    await lpFarming.deposit(units(500));
 
-      expect(await lpFarming.totalStaked()).to.equal(units(500));
-      expect(await lpFarming.balanceOf(owner.address)).to.equal(units(500));
+    expect(await lpFarming.totalStaked()).to.equal(units(500));
+    expect(await lpFarming.balanceOf(owner.address)).to.equal(units(500));
   });
 
   it("should allow users to withdraw", async () => {
@@ -128,7 +128,7 @@ describe("yVaultLPFarming", () => {
 
     await yVault.approve(lpFarming.address, units(500));
     await lpFarming.deposit(units(500));
-  
+
     await jpeg.mint(strategy.address, units(500));
     expect(await lpFarming.pendingReward(owner.address)).to.equal(units(500));
 
@@ -150,9 +150,9 @@ describe("yVaultLPFarming", () => {
     expect(await lpFarming.pendingReward(user1.address)).to.equal(0);
 
     await expect(lpFarming.claim()).to.be.revertedWith("no_reward");
-});
+  });
 
-it("should not allow non whitelisted contracts to farm", async () => {
+  it("should not allow non whitelisted contracts to farm", async () => {
     await token.mint(owner.address, units(500));
     await token.approve(yVault.address, units(500));
     await yVault.depositAll();
