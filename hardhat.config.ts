@@ -18,9 +18,16 @@ module.exports = {
     currency: "USD",
   },
   networks: {
-    buildbear: {
-      url: "https://rpc.dev.buildbear.io/smooth-cliegg-lars-4f2b2361",
-
+    hardhat: {
+      forking: {
+        url: "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY,
+        blockNumber: 13652630
+      }
+    },
+    kovan: {
+      url: "https://eth-kovan.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY,
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      gasPrice: 10000000000,
     },
   },
   solidity: {
