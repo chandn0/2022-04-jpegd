@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(solidity);
 
-describe.only("LPFarming", () => {
+describe("LPFarming", () => {
   let owner: SignerWithAddress,
     alice: SignerWithAddress,
     bob: SignerWithAddress,
