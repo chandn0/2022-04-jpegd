@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(solidity);
 
-describe("LPFarming", () => {
+describe.only("LPFarming", () => {
   let owner: SignerWithAddress,
     alice: SignerWithAddress,
     bob: SignerWithAddress,
@@ -103,10 +103,9 @@ describe("LPFarming", () => {
   });
 
   it("should not allow an epoch with invalid parameters", async () => {
-    // await expect(farming.newEpoch(0, 0, 0)).to.be.revertedWith(
-    //   "Invalid start block"
-    // );
-    await farming.newEpoch(0, 0, 0);
+    await expect(farming.newEpoch(0, 0, 0)).to.be.revertedWith(
+      "Invalid start block"
+    );
     let blockNumber = await ethers.provider.getBlockNumber();
     await expect(
       farming.newEpoch(blockNumber + 1, blockNumber + 1, 0)
